@@ -1,14 +1,10 @@
 package com.generated.webviewapp
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -20,7 +16,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    /** Dangerous-level permissions declared for this app also need a runtime prompt. */
     private val runtimePermissions: Array<String> by lazy {
         val declared = try {
             packageManager.getPackageInfo(packageName, android.content.pm.PackageManager.GET_PERMISSIONS)
@@ -62,15 +57,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupWebView()
-        showSplashThenContent()
-
-        binding.btnRetry.setOnClickListener {
-            binding.layoutOffline.visibility = View.GONE
-            binding.webView.reload()
-        }
-
-        binding.swipeRefresh.isEnabled = GeneratedConfig.PULL_TO_REFRESH
-        binding.swipeRefresh.setOnRefreshListener { binding.webView.reload() }
     }
 
     private fun applyFullscreen() {
@@ -116,16 +102,6 @@ class MainActivity : AppCompatActivity() {
         webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                binding.swipeRefresh.isRefreshing = false
-            }
-
-            override fun onReceivedError(
-                view: WebView?,
-                request: WebResourceRequest?,
-                error: android.webkit.WebResourceError?
-            ) {
-                super.onReceivedError(view, request, error)
-                if (request?.isForMainFrame == true) showOfflineOrCustomError()
             }
         }
 
@@ -138,21 +114,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             "file:///android_asset/www/index.html"
         }
-
-    private fun showOfflineOrCustomError() {
-        if (GeneratedConfig.HAS_CUSTOM_ERROR_PAGE) {
-            binding.webView.loadUrl("file:///android_asset/www/error.html")
-        } else {
-            binding.layoutOffline.visibility = View.VISIBLE
-        }
-    }
-
-    private fun showSplashThenContent() {
-        binding.layoutSplash.visibility = View.VISIBLE
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.layoutSplash.visibility = View.GONE
-        }, GeneratedConfig.SPLASH_DURATION_MS)
-    }
 
     override fun onDestroy() {
         if (GeneratedConfig.CLEAR_DATA_ON_EXIT) {
