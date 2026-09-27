@@ -1,4 +1,4 @@
-package com.generated.webviewapp
+package com.example.htmlapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
