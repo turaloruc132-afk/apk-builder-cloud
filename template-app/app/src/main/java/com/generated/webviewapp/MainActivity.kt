@@ -1,6 +1,6 @@
-package com.generated.webviewapp
+package com.turaloruc.htmltoapk
 
-import com.generated.webviewapp.R
+import com.turaloruc.htmltoapk.R
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebSettings
