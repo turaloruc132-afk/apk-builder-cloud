@@ -1,5 +1,6 @@
 package com.generated.webviewapp
 
+import com.generated.webviewapp.R
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebSettings
